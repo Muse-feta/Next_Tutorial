@@ -13,7 +13,7 @@ const layout = ({
   notification: React.ReactNode;
   login: React.ReactNode;
 }) => {
-  const isLogin: boolean = false
+  const isLogin: boolean = true
   return isLogin ? <div>{children}
   <h1>{users}</h1>
   <h1>{analytics}</h1>
