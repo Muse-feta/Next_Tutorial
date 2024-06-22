@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import { useTheme } from "../components/theme-provider";
 import { clientOnly } from "../utils/client-utils";
 
+
 export default function SimpleSlider() {
     const Theme = useTheme();
     const result = clientOnly()
