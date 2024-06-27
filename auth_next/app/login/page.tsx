@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-// import { axios } from "axios";
+import React, { useEffect, useState } from "react";
+import axios  from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -13,7 +13,26 @@ const Login = () => {
   
   });
 
-  const onLogin = async () => {};
+  useEffect(() => {
+    if(user.email && user.password) {
+      setDisabledButton(false)
+    } else {
+      setDisabledButton(true)
+    }
+  },[user])
+
+  const [disabledButton, setDisabledButton] = useState<boolean>(false)
+  const router = useRouter();
+
+  const onLogin = async () => {
+    try {
+      const res = await axios.post("/api/users/login", user);
+      console.log(res.data);
+      router.push("/");
+    } catch (error) {
+      console.log("error occured", error);
+    }
+  };
   return (
     <div className="bg-gray-100 flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md">
@@ -32,6 +51,7 @@ const Login = () => {
               id="email"
               type="email"
               placeholder="Email"
+              name="email"
               value={user.email}
               onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
@@ -48,6 +68,7 @@ const Login = () => {
               id="password"
               type="password"
               placeholder="Password"
+              name="password"
               value={user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
             />
@@ -58,7 +79,7 @@ const Login = () => {
               type="button"
               onClick={onLogin}
             >
-              Sign In
+              {disabledButton ? "Loading..." : "Login"}
             </button>
             <Link
               href="/signup"
