@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
   isAdmin BOOLEAN NOT NULL DEFAULT FALSE,
   isVerified BOOLEAN NOT NULL DEFAULT FALSE,
   forgotPasswordToken VARCHAR(255),
-  forgotPasswordTokenExpiry DATETIME,
+  forgotPasswordTokenExpiry BIGINT,
   verifyToken VARCHAR(255),
-  verifyTokenExpiry DATETIME
+  verifyTokenExpiry BIGINT
 );

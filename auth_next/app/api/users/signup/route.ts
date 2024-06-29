@@ -1,6 +1,7 @@
-import  pool  from "../../../../dbconfig/dbconfig";
+const pool = require("@/dbconfig/dbconfig");
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
+import { sendEmail } from "@/helpers/mailer";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -27,6 +28,13 @@ export const POST = async (req: NextRequest) => {
       "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
       [username, email, hashedPassword]
     );
+
+    // send verification email
+    await sendEmail({
+      email: email,
+      emailType: "VERIFY",
+      userId: results.insertId,
+    });
 
     return NextResponse.json(
       { message: "User created successfully" },
